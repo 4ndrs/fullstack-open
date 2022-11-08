@@ -1,0 +1,18 @@
+sequenceDiagram
+
+participant b as browser
+participant s as server
+
+b->>s: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+s-->>b: HTML-code
+b->>s: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+s-->>b: main.css
+b->>s: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+s-->>b: main.js
+
+note over b: browser starts executing js-code <br /> that requests JSON data from server
+
+b->>s: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+s-->>b: [{ content: "HTML is easy", date: "2019-05-23" }, ..]
+
+note over b: browser executes the event handler <br /> that renders notes to display
