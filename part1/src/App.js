@@ -18,12 +18,7 @@ const App = () => {
   );
 };
 
-const Display = ({ counter }) => {
-  return <div>{counter}</div>;
-};
-
-const Button = ({ onClick, text }) => {
-  return <button onClick={onClick}>{text}</button>;
-};
+const Display = ({ counter }) => <div>{counter}</div>;
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 export default App;
