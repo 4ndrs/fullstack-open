@@ -3,11 +3,14 @@ import { useState } from "react";
 const App = () => {
   const [counter, setCounter] = useState(0);
 
+  const increaseByOne = () => setCounter(counter + 1);
+  const setToZero = () => setCounter(0);
+
   return (
     <>
       <div>{counter}</div>
-      <button onClick={() => setCounter(counter + 1)}>plus</button>
-      <button onClick={() => setCounter(0)}>zero</button>
+      <button onClick={increaseByOne}>plus</button>
+      <button onClick={setToZero}>zero</button>
     </>
   );
 };
