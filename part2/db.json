@@ -3,13 +3,13 @@
     {
       "id": 1,
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": 2,
       "content": "Browser can execute only JavaScript",
       "date": "2022-1-17T18:39:34.091Z",
-      "important": false
+      "important": true
     },
     {
       "id": 3,
@@ -20,7 +20,7 @@
     {
       "content": "POST is used to add data to a REST api",
       "date": "2022-11-12T08:53:33.303Z",
-      "important": false,
+      "important": true,
       "id": 4
     }
   ]
