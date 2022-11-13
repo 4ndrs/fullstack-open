@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Get all notes with curl, and prettify with python (shorthand for --silent)
+curl -s http://pureryzen.io:3001/api/notes | python -m json.tool
+
+# Delete a note (shorthand for --verbose --request)
+curl -vX DELETE http://pureryzen.io:3001/api/notes/1
