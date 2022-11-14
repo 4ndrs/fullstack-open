@@ -5,3 +5,28 @@ curl -s http://pureryzen.io:3001/api/notes | python -m json.tool
 
 # Delete a note (shorthand for --verbose --request)
 curl -vX DELETE http://pureryzen.io:3001/api/notes/1
+
+# Post a note using heredoc
+curl -v http://pureryzen.io:3001/api/notes --json @- << EOF
+{
+    "content": "curl is a cool tool for testing a REST-api",
+    "important": true
+}
+EOF
+
+# with a file
+curl -v http://pureryzen.io:3001/api/notes --json @data.json
+
+# with inline json text
+curl -v http://pureryzen.io:3001/api/notes --json '{ "content": "hello, World", "important": false }'
+
+# without using the --json shortcut
+curl -v http://pureryzen.io:3001/api/notes \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data @- << EOF
+    {
+        "content": "do not forget to set the right content type",
+        "important": true
+    }
+EOF
