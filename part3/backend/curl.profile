@@ -2,24 +2,27 @@
 # Copyright (c) 2022 4ndrs <andres.degozaru@gmail.com>
 # SPDX-License-Identifier: MIT
 
-# This file is meant to be sourced: source curl.profile
+# This file is meant to be sourced: source ./curl.profile
 # functions will then be available directly in the terminal
 # as commands
+
+ENDPOINT=http://localhost:3001/api/notes
+PRETTIFY=('python' '-m' 'json.tool')
 
 #######################################
 # Gets all the notes in the current server
 # if an argument is supplied, it will then be
 # used as the ID to get a single note
-# ARGUMENTS:
+# Arguments:
 #   ID of the note to get
 #######################################
 notes_get() {
     if [[ $# -eq 0 ]]; then
-        curl -s http://localhost:3001/api/notes | python -m json.tool
+        curl -v $ENDPOINT | ${PRETTIFY[@]}
         return
     fi
 
-    curl -s http://localhost:3001/api/notes/$1 | python -m json.tool
+    curl -v $ENDPOINT/$1 | ${PRETTIFY[@]}
 }
 
 #######################################
@@ -33,7 +36,7 @@ notes_delete() {
         return
     fi
 
-    curl -vX DELETE http://localhost:3001/api/notes/$1
+    curl -vX DELETE $ENDPOINT/$1
     echo "\n"
 }
 
@@ -59,6 +62,6 @@ notes_delete() {
 #######################################
 notes_post() {
     read -d '' json
-    curl -v http://localhost:3001/api/notes --json $json
+    curl -v $ENDPOINT --json $json
     echo "\n"
 }
