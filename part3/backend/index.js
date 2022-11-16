@@ -1,30 +1,9 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 
-require("dotenv").config({ path: "./.env.local" });
+const Note = require("./models/note");
 
 const app = express();
-
-const password = process.env.DB_PSW;
-const url = process.env.DB_URL.replace("<password>", password);
-
-mongoose.connect(url);
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
-  important: Boolean,
-});
-
-noteSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id, delete returnedObject.__v;
-  },
-});
-
-const Note = mongoose.model("Note", noteSchema);
 
 const requestLogger = (request, response, next) => {
   console.log("Method:", request.method);
