@@ -65,3 +65,24 @@ notes_post() {
     curl -v $ENDPOINT --json $json
     echo "\n"
 }
+
+#######################################
+# Puts to a note in the server
+# Usage is similar to notes_post, but
+# needs the note's ID
+#
+# echo '{ "content": "hello", "important": false }' | notes_put id
+#
+# Arguments:
+#       ID of the note to put
+#######################################
+notes_put() {
+    if [[ $# -eq 0 ]]; then
+        echo 'An id is needed to send the put request'
+        return
+    fi
+
+    read -d '' json
+    curl -vX PUT $ENDPOINT/$1 --json $json
+    echo "\n"
+}
