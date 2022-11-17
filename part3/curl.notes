@@ -30,3 +30,11 @@ curl -v http://pureryzen.io:3001/api/notes \
         "important": true
     }
 EOF
+
+# Put with heredoc
+curl -vX PUT http://pureryzen.io:3001/api/notes/1 --json @- << EOF
+{
+    "content": "Updated note number 1",
+    "important": true
+}
+EOF
