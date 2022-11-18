@@ -1,26 +1,27 @@
-const mongoose = require("mongoose");
+/* global process */
+const mongoose = require('mongoose')
 
-require("dotenv").config({ path: "./.env.local" });
+require('dotenv').config({ path: './.env.local' })
 
 if (process.argv.length < 3) {
   console.log(
-    "Please provide the password as an argument: node mongo.js <password>"
-  );
+    'Please provide the password as an argument: node mongo.js <password>'
+  )
 
-  process.exit(1);
+  process.exit(1)
 }
 
-const password = process.argv[2];
+const password = process.argv[2]
 
-const url = process.env.DB_URL.replace("<password>", password);
+const url = process.env.DB_URL.replace('<password>', password)
 
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
   important: Boolean,
-});
+})
 
-const Note = mongoose.model("Note", noteSchema);
+const Note = mongoose.model('Note', noteSchema)
 /*
 mongoose
   .connect(url)
@@ -45,12 +46,12 @@ mongoose
 
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     Note.find({}).then((result) => {
       result.forEach((note) => {
-        console.log(note);
-      });
-      mongoose.connection.close();
-    });
+        console.log(note)
+      })
+      mongoose.connection.close()
+    })
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log(err))

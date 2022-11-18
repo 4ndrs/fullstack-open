@@ -7,6 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:ui": "cd ../frontend/ && npm run build && rsync -av --delete build ../backend/",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Matti Luukkainen",
@@ -18,6 +19,7 @@
     "mongoose": "^6.7.2"
   },
   "devDependencies": {
+    "eslint": "^8.27.0",
     "nodemon": "^2.0.20"
   }
 }
