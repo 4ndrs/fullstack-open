@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Note from "./components/Note";
 import Notification from "./components/Notification";
@@ -32,10 +32,20 @@ const App = () => {
     }
   }, []);
 
+  const noteFormRef = useRef();
+
+  const noteForm = () => (
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
+      <NoteForm createNote={addNote} />
+    </Togglable>
+  );
+
   const addNote = (noteObject) => {
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
     });
+
+    noteFormRef.current.toggleVisibility();
   };
 
   const toggleImportanceOf = (id) => {
@@ -95,9 +105,7 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged-in</p>
-          <Togglable buttonLabel="new note">
-            <NoteForm createNote={addNote} />
-          </Togglable>
+          {noteForm()}
         </div>
       )}
 
