@@ -65,7 +65,7 @@ describe("Note app", function () {
         cy.createNote({ content: "third note", important: false });
       });
 
-      it.only("one of those can be made important", function () {
+      it("one of those can be made important", function () {
         cy.contains("second note").parent().find("button").as("theButton");
 
         cy.get("@theButton").click();
