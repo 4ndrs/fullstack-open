@@ -35,3 +35,28 @@
 //     }
 //   }
 // }
+//
+Cypress.Commands.add("login", ({ username, password }) => {
+  cy.request("POST", "http://pureryzen.io:1234/api/login", {
+    username,
+    password,
+  }).then(({ body }) => {
+    localStorage.setItem("loggedNoteappUser", JSON.stringify(body));
+    cy.visit("http://pureryzen.io:1234");
+  });
+});
+
+Cypress.Commands.add("createNote", ({ content, important }) => {
+  cy.request({
+    url: "http://pureryzen.io:1234/api/notes",
+    method: "POST",
+    body: { content, important },
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem("loggedNoteappUser")).token
+      }`,
+    },
+  });
+
+  cy.visit("http://pureryzen.io:1234/");
+});

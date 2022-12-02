@@ -32,7 +32,7 @@ describe("Note app", function () {
     cy.contains("Kamen Rider Faiz logged-in");
   });
 
-  it.only("login fails with wrong password", function () {
+  it("login fails with wrong password", function () {
     cy.contains("login").click();
     cy.get("#username").type("faiz");
     cy.get("#password").type("913");
@@ -48,10 +48,7 @@ describe("Note app", function () {
 
   describe("when logged in", function () {
     beforeEach(function () {
-      cy.contains("login").click();
-      cy.get("#username").type("faiz");
-      cy.get("#password").type("555");
-      cy.get("#login-button").click();
+      cy.login({ username: "faiz", password: "555" });
     });
 
     it("a new note can be created", function () {
@@ -63,12 +60,10 @@ describe("Note app", function () {
 
     describe("and a note exists", function () {
       beforeEach(function () {
-        cy.contains("new note").click();
-        cy.get("input").type("another note cypress");
-        cy.contains("save").click();
+        cy.createNote({ content: "another note cypress", important: false });
       });
 
-      it("it can be made important", function () {
+      it.only("it can be made important", function () {
         cy.contains("another note cypress").contains("make important").click();
 
         cy.contains("another note cypress").contains("make not important");
