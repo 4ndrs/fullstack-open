@@ -22,4 +22,20 @@ describe("Note app", function () {
 
     cy.contains("Kamen Rider Faiz logged-in");
   });
+
+  describe("when logged in", function () {
+    beforeEach(function () {
+      cy.contains("login").click();
+      cy.get("#username").type("faiz");
+      cy.get("#password").type("555");
+      cy.get("#login-button").click();
+    });
+
+    it("a new note can be created", function () {
+      cy.contains("new note").click();
+      cy.get("input").type("a note created by cypress");
+      cy.contains("save").click();
+      cy.contains("a note created by cypress");
+    });
+  });
 });
