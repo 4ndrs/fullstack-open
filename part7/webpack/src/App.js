@@ -7,7 +7,11 @@ const App = () => {
     console.log("done");
   };
 
-  return <div onClick={handleClick}>hello webpack</div>;
+  return (
+    <div className="container" onClick={handleClick}>
+      hello webpack
+    </div>
+  );
 };
 
 export default App;
