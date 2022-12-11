@@ -1,5 +1,4 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { ApolloServer, UserInputError, gql } from "apollo-server";
 import { v1 as uuid } from "uuid";
 
 let persons = [
@@ -25,7 +24,7 @@ let persons = [
   },
 ];
 
-const typeDefs = `#graphql
+const typeDefs = gql`
   type Address {
     street: String!
     city: String!
@@ -45,12 +44,12 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-  addPerson(
-    name: String!
-    phone: String
-    street: String!
-    city: String!
-  ): Person
+    addPerson(
+      name: String!
+      phone: String
+      street: String!
+      city: String!
+    ): Person
   }
 `;
 
@@ -70,6 +69,11 @@ const resolvers = {
   },
   Mutation: {
     addPerson: (root, args) => {
+      if (persons.find((p) => p.name === args.name)) {
+        throw new UserInputError("Name must be unique", {
+          invalidArgs: args.name,
+        });
+      }
       const person = { ...args, id: uuid() };
       persons = persons.concat(person);
       return person;
@@ -82,8 +86,6 @@ const server = new ApolloServer({
   resolvers,
 });
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+server.listen().then(({ url }) => {
+  console.log(`Server ready at ${url}`);
 });
-
-console.log(`Server ready at: ${url}`);
