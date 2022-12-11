@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { v1 as uuid } from "uuid";
 
 let persons = [
   {
@@ -33,7 +34,7 @@ const typeDefs = `#graphql
   type Person {
     name: String!
     phone: String
-    adress: Address!
+    address: Address!
     id: ID!
   }
 
@@ -41,6 +42,15 @@ const typeDefs = `#graphql
     personCount: Int!
     allPersons: [Person!]!
     findPerson(name: String!): Person
+  }
+
+  type Mutation {
+  addPerson(
+    name: String!
+    phone: String
+    street: String!
+    city: String!
+  ): Person
   }
 `;
 
@@ -51,11 +61,18 @@ const resolvers = {
     findPerson: (root, args) => persons.find((p) => p.name === args.name),
   },
   Person: {
-    adress: (root) => {
+    address: (root) => {
       return {
         street: root.street,
         city: root.city,
       };
+    },
+  },
+  Mutation: {
+    addPerson: (root, args) => {
+      const person = { ...args, id: uuid() };
+      persons = persons.concat(person);
+      return person;
     },
   },
 };
