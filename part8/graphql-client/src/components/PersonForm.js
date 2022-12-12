@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { CREATE_PERSON, ALL_PERSONS } from "../queries.js";
 
-const PersonForm = () => {
+const PersonForm = ({ setError }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [street, setStreet] = useState("");
@@ -11,6 +11,9 @@ const PersonForm = () => {
 
   const [createPerson] = useMutation(CREATE_PERSON, {
     refetchQueries: [{ query: ALL_PERSONS }],
+    onError: (error) => {
+      setError(error.graphQLErrors[0].message);
+    },
   });
 
   const submit = (event) => {
