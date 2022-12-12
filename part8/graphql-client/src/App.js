@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 
+import PersonForm from "./components/PersonForm";
+
 const ALL_PERSONS = gql`
   query {
     allPersons {
@@ -24,6 +26,7 @@ const FIND_PERSON = gql`
     }
   }
 `;
+
 const App = () => {
   const result = useQuery(ALL_PERSONS);
 
@@ -31,7 +34,12 @@ const App = () => {
     return <div>loading...</div>;
   }
 
-  return <Persons persons={result.data.allPersons} />;
+  return (
+    <>
+      <Persons persons={result.data.allPersons} />
+      <PersonForm />
+    </>
+  );
 };
 
 const Person = ({ person, onClose }) => {
@@ -46,6 +54,7 @@ const Person = ({ person, onClose }) => {
     </div>
   );
 };
+
 const Persons = ({ persons }) => {
   const [nameToSearch, setNameToSearch] = useState(null);
 
