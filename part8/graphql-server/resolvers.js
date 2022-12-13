@@ -1,9 +1,16 @@
-import jwt from "jsonwebtoken";
 import { UserInputError, AuthenticationError } from "apollo-server";
+import { PubSub } from "graphql-subscriptions";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 import Person from "./models/person.js";
 import User from "./models/user.js";
+
+dotenv.config({ path: "./.env.local" });
+
 const JWT_SECRET = process.env.SECRET;
+
+const pubsub = new PubSub();
 
 const resolvers = {
   Query: {
@@ -45,6 +52,8 @@ const resolvers = {
           invalidArgs: args,
         });
       }
+
+      pubsub.publish("PERSON_ADDED", { personAdded: person });
 
       return person;
     },
@@ -111,6 +120,12 @@ const resolvers = {
       await currentUser.save();
 
       return currentUser;
+    },
+  },
+
+  Subscription: {
+    personAdded: {
+      subscribe: () => pubsub.asyncIterator("PERSON_ADDED"),
     },
   },
 };

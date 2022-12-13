@@ -1,6 +1,10 @@
 import { gql } from "apollo-server";
 
 const typeDefs = gql`
+  type Subscription {
+    personAdded: Person!
+  }
+
   type Address {
     street: String!
     city: String!
