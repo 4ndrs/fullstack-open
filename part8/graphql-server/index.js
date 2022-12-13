@@ -21,11 +21,14 @@ const JWT_SECRET = process.env.SECRET;
 console.log("connecting to ", MONGODB_URI);
 
 try {
+  mongoose.set("strictQuery", true);
   await mongoose.connect(MONGODB_URI);
 } catch (exception) {
   console.log("error connecting to MongoDB", exception.message);
   process.exit(1);
 }
+
+mongoose.set("debug", true);
 
 const start = async () => {
   const app = express();
