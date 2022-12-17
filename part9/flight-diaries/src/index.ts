@@ -11,10 +11,6 @@ app.get("/ping", (_request, response) => {
   response.send("pong");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 app.use("/api/diaries", diaryRouter);
 
 app.listen(PORT, () => {
